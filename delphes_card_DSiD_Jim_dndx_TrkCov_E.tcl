@@ -4,6 +4,8 @@
 # DSiD does not enforce electron, muon and photon isolation
 # Reference: ILC Technical Design Report Volume 4: Detectors
 # Adapted from the Delphes card delphes_card_ILD.tcl
+# updated by Dimitris Ntounis: dntounis@slac.stanford.edu
+# to include latest SiD developments: https://arxiv.org/pdf/2110.09965
 ############################################################
 
 #######################################
@@ -177,41 +179,7 @@ module Efficiency MuonTrackingEfficiency {
                           (abs(eta)>2.44)*0.0 }
 }
 
-########################################
-# Momentum resolution for charged tracks
-########################################
 
-#module MomentumSmearing ChargedHadronMomentumSmearing {
-#  set InputArray ChargedHadronTrackingEfficiency/chargedHadrons
-#  set OutputArray chargedHadrons
-#  # CP reference Figure II-3.9 (only muon resolutions are available)
-#  set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-#                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) }     
-#}
-
-###################################
-# Momentum resolution for electrons
-###################################
-
-#module MomentumSmearing ElectronMomentumSmearing {
-#  set InputArray ElectronTrackingEfficiency/electrons
-#  set OutputArray electrons
-#  # CP reference Figure II-3.9 (only muon resolutions are available)
-#  set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-#                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) }  
-#}
-
-###############################
-# Momentum resolution for muons
-###############################
-
-#module MomentumSmearing MuonMomentumSmearing {
-#  set InputArray MuonTrackingEfficiency/muons
-#  set OutputArray muons
-#  # CP reference Figure II-3.9 (only muon resolutions are available)
-#  set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-#                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) }  
-#}
 
 ##############
 # Track merger
@@ -244,12 +212,11 @@ module TrackCovariance TrackSmearing {
 
     ## magnetic field
     set Bz 2.0
-# Jim: check if maybe we should change this to 2T to match IDEA??
+    # Jim: check if maybe we should change this to 2T to match IDEA??
 
     ## scale factors
     set ElectronScaleFactor  {1.25} 
-#Jim: why?
-
+    #Jim: why?
 
     set DetectorGeometry {
 
@@ -516,7 +483,7 @@ module SimpleCalorimeter ECal {
 
   # lists of the edges of each tower in eta and phi
   # each list starts with the lower edge of the first tower
-  # the list ends with the higher edged of the last tower
+  # the list ends with the higher edge of the last tower
 
   # 0.5 degree towers (5x5 mm^2)
   set PhiBins {}
@@ -551,10 +518,8 @@ module SimpleCalorimeter ECal {
   add EnergyFraction {3122} {0.3}
 
   # set ECalResolutionFormula {resolution formula as a function of eta and energy}
-  # CP reference Table II-4.1
-  #set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.17^2)}
-  #Jim: change to IDEA resolution!!!!!
-  set ResolutionFormula {sqrt(energy^2*0.005^2 + energy*0.03^2 + 0.002^2)}
+  #Jim: change to MAPS ECAL resolution: https://indico.cern.ch/event/1339557/timetable/?view=standard#preview:5002893
+  set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.17^2)}
 
 
 }
@@ -623,12 +588,8 @@ module SimpleCalorimeter HCal {
   add EnergyFraction {3122} {0.7}
 
   # set HCalResolutionFormula {resolution formula as a function of eta and energy}
-  # CP reference Figure II-4.15
- # set ResolutionFormula {sqrt(energy^2*0.094^2 + energy*0.559^2)}
-  #set ResolutionFormula {(abs(eta) <= 3.0) * sqrt(energy^2*0.015^2 + energy*0.50^2)}
-  #Jim: change to IDEA resolution!!!!!
-  set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.3^2 + 0.05^2)}
-
+  #Jim: change to AHCAL Scintillator-SiPM/steel resolution: https://arxiv.org/pdf/2110.09965
+  set ResolutionFormula {sqrt(energy^2*0.015^2 + energy*0.46^2)}
                  
 }
 
