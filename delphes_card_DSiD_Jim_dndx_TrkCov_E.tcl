@@ -122,17 +122,8 @@ module Efficiency ChargedHadronTrackingEfficiency {
   set OutputArray chargedHadrons
   set UseMomentumVector true
 
-  # CP reference Figure 11-3.5 left (only muon efficiencies are available)
-  set EfficiencyFormula { (pt<=0.1)*0.0+
-                          (abs(eta)<=1.32)*(pt>0.1&&pt<=0.6)*0.90+
-                          (abs(eta)<=1.32)*(pt>0.6&&pt<=2.0)*0.98+
-                          (abs(eta)<=1.32)*(pt>2.0&&pt<=4.0)*0.99+
-                          (abs(eta)<=1.32)*(pt>4.0&&pt<=10000.)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.1&&pt<=0.6)*0.95+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 }
+  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+
 }
 
 ##############################
@@ -145,16 +136,8 @@ module Efficiency ElectronTrackingEfficiency {
   set UseMomentumVector true
 
   # CP reference Figure 11-3.5 left (only muon efficiencies are available)
-  set EfficiencyFormula { (pt<=0.1)*0.0+
-                          (abs(eta)<=1.32)*(pt>0.1&&pt<=0.6)*0.90+
-                          (abs(eta)<=1.32)*(pt>0.6&&pt<=2.0)*0.98+
-                          (abs(eta)<=1.32)*(pt>2.0&&pt<=4.0)*0.99+
-                          (abs(eta)<=1.32)*(pt>4.0&&pt<=10000.)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.1&&pt<=0.6)*0.95+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 }
+  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+ 
 }
 
 ##########################
@@ -167,16 +150,8 @@ module Efficiency MuonTrackingEfficiency {
   set UseMomentumVector true
 
   # CP reference Figure 11-3.5 left (only muon efficiencies are available)
-  set EfficiencyFormula { (pt<=0.1)*0.0+
-                          (abs(eta)<=1.32)*(pt>0.1&&pt<=0.6)*0.90+
-                          (abs(eta)<=1.32)*(pt>0.6&&pt<=2.0)*0.98+
-                          (abs(eta)<=1.32)*(pt>2.0&&pt<=4.0)*0.99+
-                          (abs(eta)<=1.32)*(pt>4.0&&pt<=10000.)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.1&&pt<=0.6)*0.95+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
-                          (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 }
+  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+ 
 }
 
 
@@ -397,7 +372,7 @@ module ClusterCounting ClusterCounting {
 
   set Bz $B
 
-  ## check that these are consistent with DCHCANI/DCHNANO parameters in TrackCovariance module
+  ## Jim: set to very small values to effectively have no ClusterCounting information
   set Rmin 0.00001
   set Rmax 0.00002
   set Zmin -0.00001
@@ -479,48 +454,12 @@ module SimpleCalorimeter ECal {
   set EnergyMin 0.5
   set EnergySignificanceMin 1.0
   set SmearTowerCenter true
-  set pi [expr {acos(-1)}]
 
-  # lists of the edges of each tower in eta and phi
-  # each list starts with the lower edge of the first tower
-  # the list ends with the higher edge of the last tower
+  source SiD_params/SiD_Ecal_Binning.tcl
 
-  # 0.5 degree towers (5x5 mm^2)
-  set PhiBins {}
-  for {set i -360} {$i <= 360} {incr i} {
-    add PhiBins [expr {$i * $pi/360.0}]
-  }
+  source SiD_params/SiD_Ecal_EnergyFractions.tcl
 
-  # 0.01 unit in eta up to eta = 2.5
-  for {set i -500} {$i <= 500} {incr i} {
-    set eta [expr {$i * 0.005}]
-    add EtaPhiBins $eta $PhiBins
-  }
-
-  # default energy fractions {abs(PDG code)} {fraction of energy deposited in ECAL}
-  add EnergyFraction {0} {0.0}
-  # energy fractions for e, gamma and pi0
-  add EnergyFraction {11} {1.0}
-  add EnergyFraction {22} {1.0}
-  add EnergyFraction {111} {1.0}
-  # energy fractions for muon, neutrinos and neutralinos
-  add EnergyFraction {12} {0.0}
-  add EnergyFraction {13} {0.0}
-  add EnergyFraction {14} {0.0}
-  add EnergyFraction {16} {0.0}
-  add EnergyFraction {1000022} {0.0}
-  add EnergyFraction {1000023} {0.0}
-  add EnergyFraction {1000025} {0.0}
-  add EnergyFraction {1000035} {0.0}
-  add EnergyFraction {1000045} {0.0}
-  # energy fractions for K0short and Lambda
-  add EnergyFraction {310} {0.3}
-  add EnergyFraction {3122} {0.3}
-
-  # set ECalResolutionFormula {resolution formula as a function of eta and energy}
-  #Jim: change to MAPS ECAL resolution: https://indico.cern.ch/event/1339557/timetable/?view=standard#preview:5002893
-  set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.17^2)}
-
+  source SiD_params/SiD_Ecal_resolution.tcl
 
 }
 
@@ -533,63 +472,23 @@ module SimpleCalorimeter HCal {
   #Jim: change 
   set TrackInputArray ECal/eflowTracks
   #set TrackInputArray TrackMerger/tracks
-    
-  #Jim
-  #set EFlowTrackInputArray ECal/eflowTracks
 
   set TowerOutputArray hcalTowers
   set EFlowTrackOutputArray eflowTracks
 
   set EFlowTowerOutputArray eflowNeutralHadrons
-  #Jim
-  #set EFlowNeutralHadronOutputArray eflowNeutralHadrons
-
 
   set IsEcal false
   set EnergyMin 1.0
   set EnergySignificanceMin 1.0
   set SmearTowerCenter true
-  set pi [expr {acos(-1)}]
 
-  # lists of the edges of each tower in eta and phi
-  # each list starts with the lower edge of the first tower
-  # the list ends with the higher edged of the last tower
 
-  # 6 degree towers
-  set PhiBins {}
-  for {set i -60} {$i <= 60} {incr i} {
-    add PhiBins [expr {$i * $pi/60.0}]
-  }
+  source SiD_params/SiD_Hcal_Binning.tcl
 
-  # 0.5 unit in eta up to eta = 3
-  for {set i -60} {$i <= 60} {incr i} {
-    set eta [expr {$i * 0.05}]
-    add EtaPhiBins $eta $PhiBins
-  }
+  source SiD_params/SiD_Hcal_EnergyFractions.tcl
 
-  # default energy fractions {abs(PDG code)} {Fecal Fhcal}
-  add EnergyFraction {0} {1.0}
-  # energy fractions for e, gamma and pi0
-  add EnergyFraction {11} {0.0}
-  add EnergyFraction {22} {0.0}
-  add EnergyFraction {111} {0.0}
-  # energy fractions for muon, neutrinos and neutralinos
-  add EnergyFraction {12} {0.0}
-  add EnergyFraction {13} {0.0}
-  add EnergyFraction {14} {0.0}
-  add EnergyFraction {16} {0.0}
-  add EnergyFraction {1000022} {0.0}
-  add EnergyFraction {1000023} {0.0}
-  add EnergyFraction {1000025} {0.0}
-  add EnergyFraction {1000035} {0.0}
-  add EnergyFraction {1000045} {0.0}
-  # energy fractions for K0short and Lambda
-  add EnergyFraction {310} {0.7}
-  add EnergyFraction {3122} {0.7}
-
-  # set HCalResolutionFormula {resolution formula as a function of eta and energy}
-  #Jim: change to AHCAL Scintillator-SiPM/steel resolution: https://arxiv.org/pdf/2110.09965
-  set ResolutionFormula {sqrt(energy^2*0.015^2 + energy*0.46^2)}
+  source SiD_params/SiD_Hcal_resolution.tcl
                  
 }
 
@@ -662,11 +561,9 @@ module Merger EFlowMerger {
 module Efficiency PhotonEfficiency {
   set InputArray ECal/eflowPhotons
   set OutputArray photons
-  # CP reference Figure II-10.6
-  set EfficiencyFormula { (abs(eta)<=1.01)*0.99+
-      (abs(eta)>1.01&&abs(eta)<=1.32)*0.95+
-      (abs(eta)>1.32&&abs(eta)<=2.44)*0.99+
-      (abs(eta)>2.44)*0.0}
+
+  source SiD_params/SiD_PhotonEfficiency.tcl
+
 }
 
 ##################
@@ -738,11 +635,8 @@ module PdgCodeFilter ElectronFilter {
 module Efficiency ElectronEfficiency {
   set InputArray ElectronFilter/electrons
   set OutputArray electrons
-  #CP reference Figure II-10.7
-  set EfficiencyFormula { (abs(eta)<=1.01)*0.98+
-      (abs(eta)>1.01&&abs(eta)<=1.32)*0.75+
-      (abs(eta)>1.32&&abs(eta)<=2.44)*0.95+
-      (abs(eta)>2.44)*0.0}
+  source SiD_params/SiD_ElectronEfficiency.tcl
+
 }
 
 ####################
@@ -769,8 +663,9 @@ module Isolation ElectronIsolation {
 module Efficiency MuonEfficiency {
   set InputArray MuonFilter/muons
   set OutputArray muons
-  # CP reference II-10.8
-  set EfficiencyFormula { (abs(eta)<=2.44)*0.98+0.0}
+
+  source SiD_params/SiD_MuonEfficiency.tcl
+
 }
 
 ################
