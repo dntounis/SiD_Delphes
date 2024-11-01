@@ -35,6 +35,10 @@ set ExecutionPath {
   TrackMerger
 
   ECal
+  LumiCalF
+  LumiCalR
+  BeamCalF
+  BeamCalR
   HCal
 
   TimeSmearingNeutrals
@@ -48,6 +52,10 @@ set ExecutionPath {
 
   MuonFilter
   TowerMerger
+
+  BCalTowerMerger
+  BCalEFlowMerger
+  BCalEfficiency
 
   ElectronFilter
   ElectronEfficiency
@@ -278,7 +286,6 @@ module SimpleCalorimeter ECal {
 
   set EFlowTrackOutputArray eflowTracks
   set EFlowTowerOutputArray eflowPhotons
-  #set EFlowPhotonOutputArray eflowPhotons
 
 
   set IsEcal true
@@ -293,6 +300,100 @@ module SimpleCalorimeter ECal {
   source SiD_params/SiD_Ecal_resolution.tcl
 
 }
+
+##############
+# LumiCal
+##############
+module SimpleCalorimeter LumiCalF {
+    set ParticleInputArray ParticlePropagator/stableParticles
+    set TrackInputArray TrackMerger/tracks
+    
+    set TowerOutputArray lumicalTowers
+    set PhotonOutputArray photons
+
+
+    set EFlowTrackOutputArray eflowTracks
+    set EFlowTowerOutputArray eflowPhotons
+    
+    set IsEcal true 
+    set EnergyMin 2.0
+    set EnergySignificanceMin 1.0
+    
+    set SmearTowerCenter true
+    
+    source SiD_params/SiD_LumiCalF_Binning.tcl
+    source SiD_params/SiD_ECAL_EnergyFractions.tcl
+    source SiD_params/SiD_ECAL_Resolution.tcl
+}
+
+module SimpleCalorimeter LumiCalR {
+    set ParticleInputArray ParticlePropagator/stableParticles
+    set TrackInputArray TrackMerger/tracks
+    
+    set TowerOutputArray lumicalTowers
+    set PhotonOutputArray photons
+
+
+    set EFlowTrackOutputArray eflowTracks
+    set EFlowTowerOutputArray eflowPhotons
+    
+    set IsEcal true 
+    set EnergyMin 2.0
+    set EnergySignificanceMin 1.0
+    
+    set SmearTowerCenter true
+    
+    source SiD_params/SiD_LumiCalR_Binning.tcl
+    source SiD_params/SiD_ECAL_EnergyFractions.tcl
+    source SiD_params/SiD_ECAL_Resolution.tcl
+}
+
+##############
+# BeamCal
+##############
+module SimpleCalorimeter BeamCalR {
+    set ParticleInputArray ParticlePropagator/stableParticles
+    set TrackInputArray TrackMerger/tracks
+    
+    set TowerOutputArray bcalTowers
+
+    set EFlowTowerOutputArray bcalPhotons
+    
+    set IsEcal true 
+    
+    set EnergyMin 5.0
+    set EnergySignificanceMin 1.0
+    
+    set SmearTowerCenter true
+    
+    source SiD_params/SiD_BeamCalR_Binning.tcl
+    source SiD_params/SiD_BeamCal_EnergyFractions.tcl
+    source SiD_params/SiD_BeamCal_Resolution.tcl
+}
+
+module SimpleCalorimeter BeamCalF {
+    set ParticleInputArray ParticlePropagator/stableParticles
+    set TrackInputArray TrackMerger/tracks
+    
+    set TowerOutputArray bcalTowers
+
+    set EFlowTowerOutputArray bcalPhotons
+    
+    set IsEcal true 
+    
+    set EnergyMin 5.0
+    set EnergySignificanceMin 1.0
+    
+    set SmearTowerCenter true
+    
+    source SiD_params/SiD_BeamCalF_Binning.tcl
+    source SiD_params/SiD_BeamCal_EnergyFractions.tcl
+    source SiD_params/SiD_BeamCal_Resolution.tcl
+}
+
+
+
+
 
 #############
 #   HCAL
@@ -378,6 +479,8 @@ module Merger EFlowMerger {
   #add InputArray HCal/eflowTracks
   add InputArray EFlowTrackMerger/eflowTracks
   add InputArray ECal/eflowPhotons
+  add InputArray LumiCalF/eflowPhotons
+  add InputArray LumiCalR/eflowPhotons
   #add InputArray HCal/eflowNeutralHadrons
   add InputArray TimeOfFlightNeutralHadron/eflowNeutralHadrons
   set OutputArray eflow
@@ -438,10 +541,47 @@ module Merger TowerMerger {
 # add InputArray InputArray
   add InputArray ECal/ecalTowers
   add InputArray HCal/hcalTowers
+  add InputArray LumiCalF/lumicalTowers
+  add InputArray LumiCalR/lumicalTowers
   #Jim
  # add InputArray MuonFilter/muons #Jim: comment out
   set OutputArray towers
 }
+
+
+
+###############################
+# BeamCal tower merger
+###############################
+module Merger BCalTowerMerger {
+# add InputArray InputArray
+  add InputArray BeamCalF/bcalTowers
+  add InputArray BeamCalR/bcalTowers
+  set OutputArray bcalTowers
+}
+  
+###############################
+# BeamCal energy flow merger
+###############################
+module Merger BCalEFlowMerger {
+# add InputArray InputArray
+  add InputArray BeamCalF/bcalPhotons
+  add InputArray BeamCalR/bcalPhotons
+  set OutputArray bcalPhotons
+}
+  
+##############################
+# BeamCal photon efficiency
+##############################
+module Efficiency BCalEfficiency {
+    set InputArray  BCalEFlowMerger/bcalPhotons
+    set OutputArray bcalPhotons
+    source SiD_params/SiD_BeamCalEfficiency.tcl
+}
+
+
+
+
 
 
 
