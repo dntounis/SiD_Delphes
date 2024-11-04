@@ -942,14 +942,18 @@ module TreeWriter TreeWriter {
   add Branch GenJetFinderDurhamN2/jets GenJetDurhamN2 Jet
   add Branch FastJetFinderDurhamN2/jets JetDurhamN2 Jet
 
+  # BeamCal photons - not included in particle flow/clustering
+  #  nor in the transverse momentym/energy calculation
+  
+  add Branch BCalEfficiency/bcalPhotons BCalPhoton Photon
 
  # add Branch ChargedHadronMomentumSmearing/chargedHadrons ChargedHadron Track
   #add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower 
   # Jim: change from NeutralHadron to EFlowNeutralHadron
   #add Branch ScalarHT/energy ScalarHT ScalarHT
 
-    # add Info InfoName InfoValue
-    add Info Bz $B
+  # add Info InfoName InfoValue
+  add Info Bz $B
 
 }
 
