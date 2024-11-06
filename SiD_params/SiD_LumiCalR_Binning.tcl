@@ -9,11 +9,11 @@ set pi [expr {acos(-1)} ]
 #Jim: from ILC TDR: "The azimuthal division is 36 with each sensor covering 10 degrees."
 
 set PhiBins {}
-  for {set i -18} {$i <= } {incr i} {
-    add PhiBins [expr {$i * $pi/18.0} ]
-  }
+for {set i -18} {$i <= 18} {incr i} {
+  add PhiBins [expr {$i * $pi/18.0} ]
+}
 
 for {set i 0} {$i <= 64} {incr i} {
-    set eta [expr {-4.0 + $i * 1.0/64.0} ]
-    add EtaPhiBins $eta $PhiBins
-  }
+  set eta [expr {-4.0 + $i * 1.0/64.0} ]
+  add EtaPhiBins $eta $PhiBins
+}
