@@ -297,7 +297,7 @@ module SimpleCalorimeter ECal {
 
   source SiD_params/SiD_ECal_EnergyFractions.tcl
 
-  source SiD_params/SiD_ECal_resolution.tcl
+  source SiD_params/SiD_ECal_Resolution.tcl
 
 }
 
@@ -318,7 +318,6 @@ module SimpleCalorimeter LumiCalF {
     set IsEcal true 
     set EnergyMin 2.0
     set EnergySignificanceMin 1.0
-    
     set SmearTowerCenter true
     
     source SiD_params/SiD_LumiCalF_Binning.tcl
@@ -340,7 +339,6 @@ module SimpleCalorimeter LumiCalR {
     set IsEcal true 
     set EnergyMin 2.0
     set EnergySignificanceMin 1.0
-    
     set SmearTowerCenter true
     
     source SiD_params/SiD_LumiCalR_Binning.tcl
@@ -420,7 +418,7 @@ module SimpleCalorimeter HCal {
 
   source SiD_params/SiD_HCal_EnergyFractions.tcl
 
-  source SiD_params/SiD_HCal_resolution.tcl
+  source SiD_params/SiD_HCal_Resolution.tcl
                  
 }
 
@@ -576,7 +574,7 @@ module Merger BCalEFlowMerger {
 module Efficiency BCalEfficiency {
     set InputArray  BCalEFlowMerger/bcalPhotons
     set OutputArray bcalPhotons
-    source SiD_params/SiD_BeamCalEfficiency.tcl
+    source SiD_params/SiD_BeamCal_Efficiency.tcl
 }
 
 

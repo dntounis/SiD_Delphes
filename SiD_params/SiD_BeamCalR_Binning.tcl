@@ -12,20 +12,20 @@ set pi [expr {acos(-1)} ]
 #
 # Outer part (4.0-4.6):  2.099-1.152 = 0.947 deg
 # 360/0.0973/cosh(4.4) = ~90 => 90 bins
-  #Rear part
-  set PhiBins {}
-  for {set i -45} {$i <= 45} {incr i} {
-    add PhiBins [expr {$i * $pi/45.0}]
-  }
-  for {set i 0} {$i <= 12} {incr i} {
-    set eta [expr {-4.0 - $i * 0.5999/12.0}]
-    add EtaPhiBins $eta $PhiBins
-  }
-  set PhiBins {}
-  for {set i -16} {$i <= 16} {incr i} {
-    add PhiBins [expr {$i * $pi/18.0}]
-  }
-  for {set i 0} {$i <= 8} {incr i} {
-    set eta [expr {-4.6 - $i * 1.2/8.0}]
-    add EtaPhiBins $eta $PhiBins
-  }
+#Rear part
+set PhiBins {}
+for {set i -45} {$i <= 45} {incr i} {
+  add PhiBins [expr {$i * $pi/45.0}]
+}
+for {set i 0} {$i <= 12} {incr i} {
+  set eta [expr {-4.0 - $i * 0.5999/12.0}]
+  add EtaPhiBins $eta $PhiBins
+}
+set PhiBins {}
+for {set i -16} {$i <= 16} {incr i} {
+  add PhiBins [expr {$i * $pi/18.0}]
+}
+for {set i 0} {$i <= 8} {incr i} {
+  set eta [expr {-4.6 - $i * 1.2/8.0}]
+  add EtaPhiBins $eta $PhiBins
+}
