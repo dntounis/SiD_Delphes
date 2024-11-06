@@ -10,14 +10,17 @@
 
   # DeltaEtaPhi = cell_size / r_mid = 3e-2 / 195.5e-2 = 0.015
 
+
+
+
   # Number of bins in eta = 2*3.0 / 0.015 = 400
   # Number of bins in phi = 2*pi / (0.015*cosh(1.5)) ~ 180
 
   set EtaPhiRes 0.015
 
   # number of bins in each side (half of the total!!!)
-  set nbins_phi 200  
-  set nbins_eta 90
+  set nbins_phi 90  
+  set nbins_eta 200
 
 
   set PhiBins {}
