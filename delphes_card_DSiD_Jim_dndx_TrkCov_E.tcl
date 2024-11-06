@@ -130,7 +130,7 @@ module Efficiency ChargedHadronTrackingEfficiency {
   set OutputArray chargedHadrons
   set UseMomentumVector true
 
-  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+  source SiD_params/SiD_ChargedHadronTrackingEfficiency.tcl
 
 }
 
@@ -144,7 +144,7 @@ module Efficiency ElectronTrackingEfficiency {
   set UseMomentumVector true
 
   # CP reference Figure 11-3.5 left (only muon efficiencies are available)
-  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+  source SiD_params/SiD_ChargedHadronTrackingEfficiency.tcl
  
 }
 
@@ -158,7 +158,7 @@ module Efficiency MuonTrackingEfficiency {
   set UseMomentumVector true
 
   # CP reference Figure 11-3.5 left (only muon efficiencies are available)
-  source SID_params/SiD_ChargedHadronTrackingEfficiency.tcl
+  source SiD_params/SiD_ChargedHadronTrackingEfficiency.tcl
  
 }
 
@@ -190,7 +190,7 @@ module TrackCovariance TrackSmearing {
     set InputArray TrackMergerPre/tracks
     set OutputArray tracks
 
-    source SID_params/SiD_TrackCovariance.tcl
+    source SiD_params/SiD_TrackCovariance.tcl
 
 }
 

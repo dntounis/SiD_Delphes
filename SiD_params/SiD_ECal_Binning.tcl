@@ -6,7 +6,7 @@
   # the list ends with the higher edge of the last tower
 
   # Cell size: assume 50 μm x 50 μm MAPS up to eta max = 2.5
-  # This correspond to the pixel size but the actual xy resolution will be larger,
+  # This corresponds to the pixel size but the actual xy resolution will be larger,
   # driven by the Moliere radius
   # We assume spatial resolution 1 mm x 1 mm in the xy plane
 
