@@ -293,11 +293,11 @@ module SimpleCalorimeter ECal {
   set EnergySignificanceMin 1.0
   set SmearTowerCenter true
 
-  source SiD_params/SiD_Ecal_Binning.tcl
+  source SiD_params/SiD_ECal_Binning.tcl
 
-  source SiD_params/SiD_Ecal_EnergyFractions.tcl
+  source SiD_params/SiD_ECal_EnergyFractions.tcl
 
-  source SiD_params/SiD_Ecal_resolution.tcl
+  source SiD_params/SiD_ECal_resolution.tcl
 
 }
 
@@ -322,8 +322,8 @@ module SimpleCalorimeter LumiCalF {
     set SmearTowerCenter true
     
     source SiD_params/SiD_LumiCalF_Binning.tcl
-    source SiD_params/SiD_ECAL_EnergyFractions.tcl
-    source SiD_params/SiD_ECAL_Resolution.tcl
+    source SiD_params/SiD_ECal_EnergyFractions.tcl
+    source SiD_params/SiD_ECal_Resolution.tcl
 }
 
 module SimpleCalorimeter LumiCalR {
@@ -344,8 +344,8 @@ module SimpleCalorimeter LumiCalR {
     set SmearTowerCenter true
     
     source SiD_params/SiD_LumiCalR_Binning.tcl
-    source SiD_params/SiD_ECAL_EnergyFractions.tcl
-    source SiD_params/SiD_ECAL_Resolution.tcl
+    source SiD_params/SiD_ECal_EnergyFractions.tcl
+    source SiD_params/SiD_ECal_Resolution.tcl
 }
 
 ##############
@@ -416,11 +416,11 @@ module SimpleCalorimeter HCal {
   set SmearTowerCenter true
 
 
-  source SiD_params/SiD_Hcal_Binning.tcl
+  source SiD_params/SiD_HCal_Binning.tcl
 
-  source SiD_params/SiD_Hcal_EnergyFractions.tcl
+  source SiD_params/SiD_HCal_EnergyFractions.tcl
 
-  source SiD_params/SiD_Hcal_resolution.tcl
+  source SiD_params/SiD_HCal_resolution.tcl
                  
 }
 
