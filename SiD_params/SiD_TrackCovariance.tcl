@@ -1,9 +1,6 @@
 ## minimum number of hits to accept a track
 set NMinHits 6
 
-## magnetic field
-set Bz 5.0
-
 
 ## scale factors
 set ElectronScaleFactor  {1.25} 
