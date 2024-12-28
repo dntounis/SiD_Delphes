@@ -190,6 +190,9 @@ module TrackCovariance TrackSmearing {
     set InputArray TrackMergerPre/tracks
     set OutputArray tracks
 
+    ## magnetic field
+    set Bz $B
+
     source SiD_params/SiD_TrackCovariance.tcl
 
 }
